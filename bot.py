@@ -15,12 +15,6 @@ def main():
 
     vk_session = vk_api.VkApi(token = config.token)
     vk = vk_session.get_api()
-    keyboard = VkKeyboard()
-    keyboard.add_button('11а', color=VkKeyboardColor.DEFAULT)
-    keyboard.add_button('11б', color=VkKeyboardColor.DEFAULT)
-    keyboard.add_button('11в', color=VkKeyboardColor.DEFAULT)
-    keyboard.add_line()  # Переход на вторую строку
-    keyboard.add_button('Инфо, так сказать', color=VkKeyboardColor.NEGATIVE)
     longpoll = VkLongPoll(vk_session)
 
     for event in longpoll.listen():
@@ -28,11 +22,22 @@ def main():
         if event.type == VkEventType.MESSAGE_NEW:
             print('Новое сообщение:')
             print('Текст: ', event.text)
-            if event.text==config.code:
-                vk.messages.send(user_id=event.user_id,message='Готово! Теперь идите к главному входу Окея!')
+            text = event.text
+            if text==config.code:
+                vk.messages.send(user_id=event.user_id,message='Готово! Теперь идите к '+config.place+'!')
 
-            if event.text=='Начать':
+            if text=='Начать' or text=='Start':
                 vk.messages.send(user_id=event.user_id,message='Привет, это проект Upban. Пожалуйста, не забывайте о нас. И не слова про Видеоблог')
+            if text.split()[0]=='!Change_code' and (event.user_id==86658739 or event.user_id==75772038):
+                config.code = text.split()[1]
+                vk.messages.send(user_id=event.user_id,message='Готово! Код изменен.')
+            if text.split()[0]=='!Change_place' and (event.user_id==86658739 or event.user_id==75772038):
+                config.place = ''
+                place = text.split()
+                place[0]=''
+                for i in place:
+                    config.place = config.place+' ' + i
+                vk.messages.send(user_id=event.user_id,message='Готово! Место изменено.')
         print()
 
 
