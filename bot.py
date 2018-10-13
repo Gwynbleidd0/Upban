@@ -24,7 +24,7 @@ def main():
             print('Текст: ', event.text)
             text = event.text
             if text==config.code:
-                vk.messages.send(user_id=event.user_id,message='Готово! Теперь идите к '+config.place+'!')
+                vk.messages.send(user_id=event.user_id,message='Готово! Теперь идите к'+config.place+'!')
 
             if text=='Начать' or text=='Start':
                 vk.messages.send(user_id=event.user_id,message='Привет, это проект Upban. Пожалуйста, не забывайте о нас. И не слова про Видеоблог')
@@ -38,6 +38,10 @@ def main():
                 for i in place:
                     config.place = config.place+' ' + i
                 vk.messages.send(user_id=event.user_id,message='Готово! Место изменено.')
+            if text.split()[0]=='!Test' and (event.user_id==86658739 or event.user_id==75772038):
+                count = vk.messages.getDialogs()
+                print(count)
+                vk.messages.send(user_id=event.user_id,message=count)
         print()
 
 
