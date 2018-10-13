@@ -1,5 +1,6 @@
 import vk_api
 import config
+import json
 from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
@@ -38,10 +39,20 @@ def main():
                 for i in place:
                     config.place = config.place+' ' + i
                 vk.messages.send(user_id=event.user_id,message='Готово! Место изменено.')
-            if text.split()[0]=='!Test' and (event.user_id==86658739 or event.user_id==75772038):
+            if text.split()[0]=='!Mass_message' and (event.user_id==86658739 or event.user_id==75772038):
+                mess = text.split()
+                mess[0]=''
+                mass_mess=''
+                for i in mess:
+                    mass_mess=mass_mess+i+' '
                 count = vk.messages.getDialogs()
-                print(count)
-                vk.messages.send(user_id=event.user_id,message=count)
+                print(mass_mess)
+                f=0
+                for i in count['items']:
+                    id_user = count['items'][f]['message']['user_id'])
+                    vk.messages.send(user_id=id_user,message=mass_mess)
+                    f=f+1
+                vk.messages.send(user_id=event.user_id,message='Реади)')
         print()
 
 
