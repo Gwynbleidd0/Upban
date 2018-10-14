@@ -49,7 +49,7 @@ def main():
                 print(mass_mess)
                 f=0
                 for i in count['items']:
-                    id_user = count['items'][f]['message']['user_id'])
+                    id_user = count['items'][f]['message']['user_id']
                     vk.messages.send(user_id=id_user,message=mass_mess)
                     f=f+1
                 vk.messages.send(user_id=event.user_id,message='Реади)')
